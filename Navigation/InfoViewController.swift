@@ -27,7 +27,7 @@ class InfoViewController: UIViewController {
       }
 
       @objc func didTapShowAlertButton() {
-          // Отображаем UIAlertController при нажатии на кнопку
+
           let alertController = UIAlertController(title: "Внимание", message: "Предупреждение работает", preferredStyle: .alert)
 
 
