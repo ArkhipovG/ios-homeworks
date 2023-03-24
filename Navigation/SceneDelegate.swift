@@ -16,6 +16,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         guard let windowScene = (scene as? UIWindowScene) else { return }
            let window = UIWindow(windowScene: windowScene)
 
+
            let tabBarController = UITabBarController()
            let feedNavigationController = UINavigationController(rootViewController: FeedViewController())
            let profileNavigationController = UINavigationController(rootViewController: ProfileViewController())
@@ -23,8 +24,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         feedNavigationController.tabBarItem = UITabBarItem(title: "Лента", image: UIImage(systemName: "newspaper"), selectedImage: nil)
         profileNavigationController.tabBarItem = UITabBarItem(title: "Профиль", image: UIImage(systemName: "person"), selectedImage: nil)
            window.rootViewController = tabBarController
+        tabBarController.tabBar.backgroundColor = .tertiarySystemGroupedBackground
            self.window = window
            window.makeKeyAndVisible()
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -56,5 +59,5 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
 
 
-}
+
 
