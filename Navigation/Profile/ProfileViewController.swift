@@ -9,13 +9,18 @@ import UIKit
 
 class ProfileViewController: UIViewController {
 
-    private var headerView: ProfileHeaderView!
+    private var headerView: ProfileHeaderView! = ProfileHeaderView()
 
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .tertiarySystemGroupedBackground
+        viewBackground()
+        view.addSubview(headerView)
+        title = "Profile"
+    }
 
+     func viewBackground() {
         let safeAreaView = UIView()
         safeAreaView.backgroundColor = .lightGray
         view.addSubview(safeAreaView)
@@ -27,10 +32,6 @@ class ProfileViewController: UIViewController {
             safeAreaView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
             safeAreaView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
-
-        headerView = ProfileHeaderView()
-        view.addSubview(headerView)
-        title = "Profile"
     }
 
     override func viewWillLayoutSubviews() {
