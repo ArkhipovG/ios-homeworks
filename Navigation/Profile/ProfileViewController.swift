@@ -31,7 +31,6 @@ class ProfileViewController: UIViewController {
         headerView = ProfileHeaderView()
         view.addSubview(headerView)
         title = "Profile"
-        navigationController?.navigationBar.backgroundColor = UIColor.tertiarySystemGroupedBackground
     }
 
     override func viewWillLayoutSubviews() {

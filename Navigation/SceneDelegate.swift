@@ -24,7 +24,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         feedNavigationController.tabBarItem = UITabBarItem(title: "Лента", image: UIImage(systemName: "newspaper"), selectedImage: nil)
         profileNavigationController.tabBarItem = UITabBarItem(title: "Профиль", image: UIImage(systemName: "person"), selectedImage: nil)
            window.rootViewController = tabBarController
-        tabBarController.tabBar.backgroundColor = .tertiarySystemGroupedBackground
            self.window = window
            window.makeKeyAndVisible()
         }
