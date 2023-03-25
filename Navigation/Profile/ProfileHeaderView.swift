@@ -7,8 +7,10 @@
 
 import UIKit
 
+
 class ProfileHeaderView: UIView {
 
+    private var statusText = ""
 
     let profileNameLabel: UILabel = {
         let label = UILabel()
@@ -29,11 +31,11 @@ class ProfileHeaderView: UIView {
         return imageView
     }()
 
-    let showStatusButton: UIButton = {
+    let setStatusButton: UIButton = {
         let button = UIButton()
-        button.backgroundColor = .blue
+        button.backgroundColor = .systemBlue
         button.setTitleColor(.white, for: .normal)
-        button.setTitle("Show status", for: .normal)
+        button.setTitle("Set status", for: .normal)
         button.layer.cornerRadius = 4
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.shadowOffset = CGSize(width: 4, height: 4)
@@ -48,9 +50,21 @@ class ProfileHeaderView: UIView {
         label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         label.textColor = .gray
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "На прогулке"
-        label.isHidden = true
+        label.text = "No status"
+        label.isHidden = false
         return label
+    }()
+
+    let textField: UITextField = {
+        let textField = UITextField()
+        textField.backgroundColor = .white
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        textField.placeholder = "  Enter status"
+        textField.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        textField.layer.cornerRadius = 12
+        textField.layer.borderColor = UIColor.black.cgColor
+        textField.layer.borderWidth = 1
+        return textField
     }()
 
     override init(frame: CGRect) {
@@ -66,9 +80,12 @@ class ProfileHeaderView: UIView {
     func setupUI() {
         addSubview(profileNameLabel)
         addSubview(avatarImageView)
-        addSubview(showStatusButton)
+        addSubview(setStatusButton)
         addSubview(statusLabel)
-        setupButton()
+        addSubview(textField)
+        setStatusButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
+        addSubview(textField)
+        textField.addTarget(self, action: #selector(statusTextChanged), for: .editingChanged)
 
 
         NSLayoutConstraint.activate([
@@ -83,24 +100,29 @@ class ProfileHeaderView: UIView {
 
             statusLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 30),
             statusLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -30),
-            statusLabel.bottomAnchor.constraint(equalTo: showStatusButton.topAnchor, constant: -54),
+            statusLabel.bottomAnchor.constraint(equalTo: setStatusButton.topAnchor, constant: -54),
 
-            showStatusButton.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 16),
-            showStatusButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            showStatusButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            showStatusButton.heightAnchor.constraint(equalToConstant:50)
+            setStatusButton.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 16),
+            setStatusButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            setStatusButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            setStatusButton.heightAnchor.constraint(equalToConstant:50),
 
+            textField.bottomAnchor.constraint(equalTo: setStatusButton.topAnchor, constant: -12),
+            textField.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 30),
+            textField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -30),
+            textField.heightAnchor.constraint(equalToConstant: 40),
+            textField.widthAnchor.constraint(equalToConstant: 200),
         ])
 
     }
 
-    func setupButton() {
-        showStatusButton.addTarget(self, action: #selector(didTapShowStatusButton), for: .touchUpInside)
-    }
-    @objc func didTapShowStatusButton() {
-        statusLabel.isHidden = false
-        print(" Status is \(statusLabel.text ?? "No status")")
+    @objc private func statusTextChanged(_ textField: UITextField) {
+          statusText = "\(textField.text!)"
     }
 
+    @objc func buttonPressed() {
+        statusLabel.text = statusText
+        print(" Status is \(statusLabel.text ?? "No status")")
+    }
 }
 
