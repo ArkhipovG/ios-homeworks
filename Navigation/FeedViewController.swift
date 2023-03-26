@@ -19,19 +19,21 @@ class FeedViewController: UIViewController {
         return stackView
     }()
 
-    private let firstPostButton: UIButton = {
+    private lazy var firstPostButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle ("Пост1", for: .normal)
         button.backgroundColor = .black
+        button.addTarget(self, action: #selector(didTapPostButton), for: .touchUpInside)
         return button
     }()
 
-    private let secondPostButton: UIButton = {
+    private lazy var secondPostButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle ("Пост2", for: .normal)
         button.backgroundColor = .black
+        button.addTarget(self, action: #selector(didTapPostButton), for: .touchUpInside)
         return button
     }()
 
@@ -39,23 +41,19 @@ class FeedViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .tertiarySystemGroupedBackground
         view.addSubview(stackView)
-        layout()
+        viewConstraints()
     }
 
-    private func layout() {
+    private func viewConstraints() {
         stackView.addArrangedSubview(firstPostButton)
         stackView.addArrangedSubview(secondPostButton)
-        firstPostButton.addTarget(self, action: #selector(didTapPostButton), for: .touchUpInside)
-        secondPostButton.addTarget(self, action: #selector(didTapPostButton), for: .touchUpInside)
 
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100)
-        ])
+            stackView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100),
 
-        NSLayoutConstraint.activate([
             firstPostButton.heightAnchor.constraint(equalToConstant: 50),
             firstPostButton.widthAnchor.constraint(equalToConstant: 100),
 
@@ -63,7 +61,6 @@ class FeedViewController: UIViewController {
             secondPostButton.widthAnchor.constraint(equalToConstant: 100),
         ])
     }
-
 
     @objc func didTapPostButton() {
         let postViewController = PostViewController()
