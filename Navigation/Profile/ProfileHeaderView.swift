@@ -31,7 +31,7 @@ class ProfileHeaderView: UIView {
         return imageView
     }()
 
-    let setStatusButton: UIButton = {
+    private lazy var setStatusButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .systemBlue
         button.setTitleColor(.white, for: .normal)
@@ -42,6 +42,7 @@ class ProfileHeaderView: UIView {
         button.layer.shadowRadius = 4
         button.layer.shadowColor = UIColor.black.cgColor
         button.layer.shadowOpacity = 0.7
+        button.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
         return button
     }()
 
@@ -55,7 +56,7 @@ class ProfileHeaderView: UIView {
         return label
     }()
 
-    let textField: UITextField = {
+    private lazy var textField: UITextField = {
         let textField = UITextField()
         textField.backgroundColor = .white
         textField.translatesAutoresizingMaskIntoConstraints = false
@@ -64,6 +65,7 @@ class ProfileHeaderView: UIView {
         textField.layer.cornerRadius = 12
         textField.layer.borderColor = UIColor.black.cgColor
         textField.layer.borderWidth = 1
+        textField.addTarget(self, action: #selector(statusTextChanged), for: .editingChanged)
         return textField
     }()
 
@@ -83,9 +85,6 @@ class ProfileHeaderView: UIView {
         addSubview(setStatusButton)
         addSubview(statusLabel)
         addSubview(textField)
-        setStatusButton.addTarget(self, action: #selector(buttonPressed), for: .touchUpInside)
-        addSubview(textField)
-        textField.addTarget(self, action: #selector(statusTextChanged), for: .editingChanged)
 
 
         NSLayoutConstraint.activate([
