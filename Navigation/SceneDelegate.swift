@@ -19,10 +19,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
            let tabBarController = UITabBarController()
            let feedNavigationController = UINavigationController(rootViewController: FeedViewController())
-           let profileNavigationController = UINavigationController(rootViewController: ProfileViewController())
-           tabBarController.setViewControllers([feedNavigationController, profileNavigationController], animated: true)
+           let logInNavigationController = UINavigationController(rootViewController: LogInViewController())
+           tabBarController.setViewControllers([feedNavigationController, logInNavigationController], animated: true)
         feedNavigationController.tabBarItem = UITabBarItem(title: "Лента", image: UIImage(systemName: "newspaper"), selectedImage: nil)
-        profileNavigationController.tabBarItem = UITabBarItem(title: "Профиль", image: UIImage(systemName: "person"), selectedImage: nil)
+        logInNavigationController.tabBarItem = UITabBarItem(title: "Профиль", image: UIImage(systemName: "person"), selectedImage: nil)
            window.rootViewController = tabBarController
            self.window = window
            window.makeKeyAndVisible()
