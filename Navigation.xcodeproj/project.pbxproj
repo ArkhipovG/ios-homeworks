@@ -18,6 +18,7 @@
 		1CBF7B6C29C633170028D667 /* Posts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CBF7B6B29C633170028D667 /* Posts.swift */; };
 		1CBF7B6E29C6354C0028D667 /* InfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CBF7B6D29C6354C0028D667 /* InfoViewController.swift */; };
 		1CC13DF729CCCA6B0023060D /* ProfileHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC13DF629CCCA6B0023060D /* ProfileHeaderView.swift */; };
+		1CEAEDBD29D2FB8F00A779C7 /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CEAEDBC29D2FB8F00A779C7 /* LogInView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		1CBF7B6B29C633170028D667 /* Posts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Posts.swift; sourceTree = "<group>"; };
 		1CBF7B6D29C6354C0028D667 /* InfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoViewController.swift; sourceTree = "<group>"; };
 		1CC13DF629CCCA6B0023060D /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
+		1CEAEDBC29D2FB8F00A779C7 /* LogInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,6 +88,7 @@
 				1CBF7B6729C62B670028D667 /* ProfileViewController.swift */,
 				1CC13DF629CCCA6B0023060D /* ProfileHeaderView.swift */,
 				1C909B3329D1F81100225268 /* LogInViewController.swift */,
+				1CEAEDBC29D2FB8F00A779C7 /* LogInView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -160,6 +163,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1CEAEDBD29D2FB8F00A779C7 /* LogInView.swift in Sources */,
 				1CBF7B6A29C62FD10028D667 /* PostViewController.swift in Sources */,
 				1CBF7B6C29C633170028D667 /* Posts.swift in Sources */,
 				1C909B3429D1F81100225268 /* LogInViewController.swift in Sources */,
