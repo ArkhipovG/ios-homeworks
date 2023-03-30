@@ -44,7 +44,6 @@ class ProfileViewController: UIViewController {
         view.addSubview(safeAreaView)
         view.addSubview(setTitleButton)
         view.addSubview(headerView)
-  //      headerView.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
 

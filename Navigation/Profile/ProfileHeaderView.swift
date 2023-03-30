@@ -31,6 +31,7 @@ class ProfileHeaderView: UIView {
         return imageView
     }()
 
+
     private lazy var setStatusButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .systemBlue
@@ -56,17 +57,18 @@ class ProfileHeaderView: UIView {
         return label
     }()
 
-    private lazy var textField: UITextField = {
-        let textField = UITextField()
-        textField.backgroundColor = .white
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.placeholder = "  Enter status"
-        textField.font = UIFont.systemFont(ofSize: 15, weight: .regular)
-        textField.layer.cornerRadius = 12
-        textField.layer.borderColor = UIColor.black.cgColor
-        textField.layer.borderWidth = 1
-        textField.addTarget(self, action: #selector(statusTextChanged), for: .editingChanged)
-        return textField
+    private lazy var  textField: UITextField = {
+        let statusField = UITextField()
+        statusField.backgroundColor = .white
+        statusField.translatesAutoresizingMaskIntoConstraints = false
+        statusField.placeholder = "  Enter status"
+        statusField.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        statusField.layer.cornerRadius = 12
+        statusField.layer.borderColor = UIColor.black.cgColor
+        statusField.layer.borderWidth = 1
+        statusField.addTarget(self, action: #selector(statusTextChanged), for: .editingChanged)
+        return statusField
+
     }()
 
     override init(frame: CGRect) {
