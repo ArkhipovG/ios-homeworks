@@ -12,12 +12,13 @@ import UIKit
 class PostViewController: UIViewController {
 
 
-    var post: Post?
+   
 
         override func viewDidLoad() {
             super.viewDidLoad()
-            view.backgroundColor = .systemGray4
-            title = post?.title
+            view.backgroundColor = .tertiarySystemGroupedBackground
+
+            title = post.title
 
 
           let infoButton = UIBarButtonItem(title: "Инфо", style: .plain, target: self, action: #selector(didTapInfoButton))

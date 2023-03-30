@@ -12,3 +12,6 @@ struct Post {
 }
 
 var posts: [Post] = [] 
+
+let post = Post(title: "Мой первый пост")
+let postViewController = PostViewController()

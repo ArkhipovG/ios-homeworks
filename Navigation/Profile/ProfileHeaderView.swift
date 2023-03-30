@@ -31,7 +31,8 @@ class ProfileHeaderView: UIView {
         return imageView
     }()
 
-    private lazy var  setStatusButton: UIButton = {
+
+    private lazy var setStatusButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = .systemBlue
         button.setTitleColor(.white, for: .normal)
@@ -67,6 +68,7 @@ class ProfileHeaderView: UIView {
         statusField.layer.borderWidth = 1
         statusField.addTarget(self, action: #selector(statusTextChanged), for: .editingChanged)
         return statusField
+
     }()
 
     override init(frame: CGRect) {
