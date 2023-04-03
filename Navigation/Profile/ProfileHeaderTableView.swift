@@ -61,7 +61,7 @@ class ProfileHeaderView: UIView {
         let statusField = UITextField()
         statusField.backgroundColor = .white
         statusField.translatesAutoresizingMaskIntoConstraints = false
-        statusField.placeholder = "  Enter status"
+        statusField.placeholder = "Enter status"
         statusField.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         statusField.textAlignment = .center
         statusField.layer.cornerRadius = 12
