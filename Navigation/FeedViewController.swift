@@ -9,6 +9,8 @@ import UIKit
 
 class FeedViewController: UIViewController {
 
+    var post = Post(autor: "123", description: "14", image: "tree", likes: 3, views: 7)
+    
     private let stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -24,7 +26,6 @@ class FeedViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle ("Пост1", for: .normal)
         button.backgroundColor = .black
-        button.addTarget(self, action: #selector(didTapPostButton), for: .touchUpInside)
         return button
     }()
 
@@ -33,7 +34,6 @@ class FeedViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle ("Пост2", for: .normal)
         button.backgroundColor = .black
-        button.addTarget(self, action: #selector(didTapPostButton), for: .touchUpInside)
         return button
     }()
 
@@ -62,9 +62,6 @@ class FeedViewController: UIViewController {
         ])
     }
 
-    @objc func didTapPostButton() {
-        let postViewController = PostViewController()
-        navigationController?.pushViewController(postViewController, animated: true)
-    }
+
 }
 

@@ -9,68 +9,62 @@ import UIKit
 
 class ProfileViewController: UIViewController {
 
-    private lazy var headerView: ProfileHeaderView = {
-        let view = ProfileHeaderView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
+    private enum Constants {
+        static let reuseIdentifire = "cellID"
+    }
+
+    let publicationsArray = PostProvider.getPost()
+    private let headerView = ProfileHeaderView()
+
+
+    private lazy var tableView: UITableView = {
+
+        let tableView = UITableView(frame: .zero, style: .grouped)
+        self.tableView = UITableView(frame: view.bounds, style: .grouped)
+        tableView.register(PostTableViewCell.self, forCellReuseIdentifier: Constants.reuseIdentifire )
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.separatorStyle = .none
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+
+        return tableView
     }()
 
-    private lazy var setTitleButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = .systemBlue
-        button.setTitleColor(.white, for: .normal)
-        button.setTitle("Set title", for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(setNewTitle), for: .touchUpInside)
-        return button
-    }()
-
-    let safeAreaView: UIView = {
-        let view = UIView()
-        view.backgroundColor = .systemGray4
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .tertiarySystemGroupedBackground
-        viewConstraints()
-        title = "Profile"
+
+        view.addSubview(tableView)
+        self.tableView.register(PostTableViewCell.self, forCellReuseIdentifier: Constants.reuseIdentifire)
+        addConstraintsOfTableView()
     }
 
-
-    func viewConstraints() {
-        view.addSubview(safeAreaView)
-        view.addSubview(setTitleButton)
-        view.addSubview(headerView)
-
+    func addConstraintsOfTableView() {
         NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
 
-            headerView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            headerView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            headerView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            headerView.heightAnchor.constraint(equalToConstant: 220),
-
-            safeAreaView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            safeAreaView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            safeAreaView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            safeAreaView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-
-            setTitleButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            setTitleButton.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            setTitleButton.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            setTitleButton.heightAnchor.constraint(equalToConstant:50),
         ])
-    }
-
-    @objc func setNewTitle() {
-        title = "New title"
-    }
-
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
-        headerView.frame = view.bounds
     }
 }
 
+// UIDataSource
+extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        publicationsArray.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: Constants.reuseIdentifire, for: indexPath) as! PostTableViewCell
+        let post = publicationsArray[indexPath.row]
+        cell.configure(post: post)
+        return cell
+    }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        return headerView
+    }
+}

@@ -63,6 +63,7 @@ class ProfileHeaderView: UIView {
         statusField.translatesAutoresizingMaskIntoConstraints = false
         statusField.placeholder = "  Enter status"
         statusField.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        statusField.textAlignment = .center
         statusField.layer.cornerRadius = 12
         statusField.layer.borderColor = UIColor.black.cgColor
         statusField.layer.borderWidth = 1
@@ -73,6 +74,7 @@ class ProfileHeaderView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        backgroundColor = .lightGray
         setupUI()
     }
 
@@ -92,25 +94,27 @@ class ProfileHeaderView: UIView {
         NSLayoutConstraint.activate([
 
             avatarImageView.topAnchor.constraint(equalTo:safeAreaLayoutGuide.topAnchor,constant:16),
-            avatarImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            avatarImageView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16),
             avatarImageView.heightAnchor.constraint(equalToConstant: 120),
             avatarImageView.widthAnchor.constraint(equalToConstant: 120),
 
             profileNameLabel.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: 27),
-            profileNameLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            profileNameLabel.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 150),
+            profileNameLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
 
             statusLabel.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 30),
-            statusLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -30),
+            statusLabel.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -30),
             statusLabel.bottomAnchor.constraint(equalTo: setStatusButton.topAnchor, constant: -54),
 
             setStatusButton.topAnchor.constraint(equalTo: avatarImageView.bottomAnchor, constant: 16),
-            setStatusButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            setStatusButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            setStatusButton.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            setStatusButton.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            setStatusButton.bottomAnchor.constraint(equalTo: safeAreaLayoutGuide.bottomAnchor, constant: -50),
             setStatusButton.heightAnchor.constraint(equalToConstant:50),
 
             textField.bottomAnchor.constraint(equalTo: setStatusButton.topAnchor, constant: -12),
             textField.leadingAnchor.constraint(equalTo: avatarImageView.trailingAnchor, constant: 30),
-            textField.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -30),
+            textField.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor, constant: -30),
             textField.heightAnchor.constraint(equalToConstant: 40),
             textField.widthAnchor.constraint(equalToConstant: 200),
         ])
