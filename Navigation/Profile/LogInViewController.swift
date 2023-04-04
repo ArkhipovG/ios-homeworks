@@ -74,11 +74,6 @@ class LogInViewController: UIViewController {
         self.logoView.scrollView.contentInset = .zero
         self.logoView.scrollView.scrollIndicatorInsets = .zero
     }
-
-    @objc func logInPressed() {
-        let profileViewController = ProfileViewController()
-        navigationController?.pushViewController(profileViewController, animated: true)
-    }
 }
 
 
