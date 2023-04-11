@@ -147,7 +147,7 @@ class LogInView: UIView {
             logInButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12)
         ])
     }
-    func configure(image: UIImage) {
+    private func configure(image: UIImage) {
         logoImageView.image = image
     }
 }

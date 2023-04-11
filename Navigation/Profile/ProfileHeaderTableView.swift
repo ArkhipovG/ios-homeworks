@@ -7,10 +7,27 @@
 
 import UIKit
 
+protocol ProfileHeaderViewDelegate: AnyObject {
+    func dogImageViewTapped()
+}
 
 class ProfileHeaderView: UIView {
 
+    private let tapGestureRecognizer = UITapGestureRecognizer()
+
+    weak var delegate: ProfileHeaderViewDelegate?
+
     private var statusText = ""
+
+    private let backgroundView: UIView = {
+        let deactiveView = UIView()
+        deactiveView.frame = CGRect(x: 0, y: 0, width: 200, height: 500)
+        deactiveView.backgroundColor = .systemGray
+        deactiveView.alpha = 0
+        deactiveView.translatesAutoresizingMaskIntoConstraints = false
+
+        return deactiveView
+    }()
 
     let profileNameLabel: UILabel = {
         let label = UILabel()
@@ -28,6 +45,7 @@ class ProfileHeaderView: UIView {
         imageView.layer.cornerRadius = 60
         imageView.layer.borderColor = UIColor.white.cgColor
         imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.isUserInteractionEnabled = true
         return imageView
     }()
 
@@ -83,12 +101,19 @@ class ProfileHeaderView: UIView {
         setupUI()
     }
 
-    func setupUI() {
+    func setImageVisible() {
+        avatarImageView.isHidden = false
+    }
+
+    private func setupUI() {
+        addSubview(backgroundView)
         addSubview(profileNameLabel)
         addSubview(avatarImageView)
         addSubview(setStatusButton)
         addSubview(statusLabel)
         addSubview(textField)
+        avatarImageView.addGestureRecognizer(tapGestureRecognizer)
+        tapGestureRecognizer.addTarget(self, action: #selector(handTapGesture))
 
 
         NSLayoutConstraint.activate([
@@ -121,8 +146,13 @@ class ProfileHeaderView: UIView {
 
     }
 
+    @objc func handTapGesture(_ gestureRecognizer: UITapGestureRecognizer) {
+             avatarImageView.isHidden = true
+             delegate?.dogImageViewTapped()
+         }
+
     @objc private func statusTextChanged(_ textField: UITextField) {
-          statusText = "\(textField.text!)"
+        statusText = "\(textField.text!)"
     }
 
     @objc func buttonPressed() {
