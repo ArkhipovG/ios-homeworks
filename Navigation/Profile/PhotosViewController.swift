@@ -9,24 +9,24 @@ import Foundation
 import UIKit
 
 class PhotosViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDataSource {
-
+    
     private enum Constants {
         static let reuseIdentifier = "collection_cell"
     }
-
+    
     private let collectionView = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-
+    
     private let arrayOfImages: [UIImage]
-
+    
     init(array: [UIImage]) {
         self.arrayOfImages = array
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addSubview(collectionView)
@@ -35,28 +35,25 @@ class PhotosViewController: UIViewController, UICollectionViewDelegateFlowLayout
         collectionView.delegate = self
         collectionView.dataSource = self
         collectionView.showsVerticalScrollIndicator = false
-
         navigationItem.title = "Photo Gallery"
         navigationItem.titleView?.isHidden = true
-
         collectionView.register(PhotosCollectionViewCell.self, forCellWithReuseIdentifier: Constants.reuseIdentifier)
     }
-
+    
     private  func addConstraintsOfCollectionView() {
         NSLayoutConstraint.activate([
+            
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
-
-    // UICollectionViewDelegateFlowLayout
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return sizeOfCollectionView()
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         .init(
             top: 8,
@@ -65,28 +62,33 @@ class PhotosViewController: UIViewController, UICollectionViewDelegateFlowLayout
             right: 8
         )
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         8
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         8
     }
-
-    // UICollectionViewDataSource
-
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         arrayOfImages.count
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: Constants.reuseIdentifier, for: indexPath) as! PhotosCollectionViewCell
         cell.configure(image: arrayOfImages[indexPath.row], needForCorners: false)
         return cell
     }
-
-   private func sizeOfCollectionView() -> CGSize {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print("cell was tapped")
+        let photoViewController = PhotoOnTapViewController()
+        photoViewController.configure(image: arrayOfImages[indexPath.row])
+        navigationController?.pushViewController(photoViewController, animated: true)
+    }
+    
+    private func sizeOfCollectionView() -> CGSize {
         let numberOfCells: CGFloat = 3
         let offsetBetweenCells: CGFloat = 8
         let offsetFromCellToScreen: CGFloat = 8

@@ -4,7 +4,7 @@
 //
 //  Created by Григорий Архипов on 18/03/2023.
 //
-
+import Foundation
 import UIKit
 
 class ProfileViewController: UIViewController {
@@ -14,14 +14,13 @@ class ProfileViewController: UIViewController {
         static let collectionID = "collectID"
     }
 
-    private let publicationsArray = PostProvider.getPost()
+    private var publicationsArray = PostProvider.getPost()
     private let headerView = ProfileHeaderView()
     private var arrayOfImages: [UIImage] = ImageProvider.getImages()
 
     private lazy var tableView: UITableView = {
-
         let tableView = UITableView(frame: .zero, style: .grouped)
-        tableView.register(PostTableViewCell.self, forCellReuseIdentifier: Constants.reuseIdentifire )
+        tableView.register(PostTableViewCell.self, forCellReuseIdentifier: Constants.reuseIdentifire)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.separatorStyle = .none
@@ -31,18 +30,17 @@ class ProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
         view.addSubview(tableView)
         self.tableView.register(PostTableViewCell.self, forCellReuseIdentifier: Constants.reuseIdentifire)
         addConstraintsOfTableView()
         self.tableView.register(PhotosTableViewCell.self, forCellReuseIdentifier: Constants.collectionID)
         tableView.sectionFooterHeight = 0.0
-
         headerView.delegate = self
     }
 
     private func addConstraintsOfTableView() {
         NSLayoutConstraint.activate([
+            
             tableView.topAnchor.constraint(equalTo: view.topAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -51,10 +49,9 @@ class ProfileViewController: UIViewController {
     }
 }
 
-
-// настройка анимации
 extension ProfileViewController: ProfileHeaderViewDelegate {
-    func dogImageViewTapped() {
+
+    func avatarTapped() {
         let previewView = PreviewWithImage(frame: .init(
             origin: .zero,
             size: view.window?.frame.size ?? .zero
@@ -71,9 +68,26 @@ extension ProfileViewController: PreviewViewWithImageDelegate {
     }
 }
 
-// UIDataSource
-extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
 
+extension ProfileViewController: PostTableViewCellDelegate {
+
+    func likeLabelTapped(postID: Int) {
+        let postIndex = publicationsArray.firstIndex(where: {postID == $0.postID})!
+        publicationsArray[postIndex].likes += 1
+        tableView.reconfigureRows(at: [IndexPath(item: postIndex, section: 1)])
+    }
+
+    func postImageTapped(postID: Int) {
+        let postViewController = PostOnTapViewController()
+        navigationController?.pushViewController(postViewController, animated: true)
+        let postIndex = publicationsArray.firstIndex(where: {postID == $0.postID})!
+        publicationsArray[postIndex].views += 1
+        tableView.reconfigureRows(at: [IndexPath(item: postIndex, section: 1)])
+        postViewController.configure(post: publicationsArray[postID])
+    }
+}
+
+extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
 
     func numberOfSections(in tableView: UITableView) -> Int {
         2
@@ -96,6 +110,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
             let cell = tableView.dequeueReusableCell(withIdentifier: Constants.reuseIdentifire, for: indexPath) as! PostTableViewCell
             let post = publicationsArray[indexPath.row]
             cell.configure(post: post)
+            cell.delegate = self
             return cell
         }
     }
@@ -109,8 +124,28 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let newViewController = PhotosViewController(array: arrayOfImages)
-        navigationController?.pushViewController(newViewController, animated: true)
+        if indexPath.section == 0 {
+            let newViewController = PhotosViewController(array: arrayOfImages)
+            navigationController?.pushViewController(newViewController, animated: true)
+        }
     }
 
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let action = UIContextualAction(style: .normal, title: "Редактировать") {_,_,_ in
+        }
+
+        let action1 = UIContextualAction(style: .destructive, title: "Отменить") {_,_,_ in
+        }
+        return UISwipeActionsConfiguration(actions: [action, action1])
+    }
+
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+
+        let action = UIContextualAction(style: .destructive, title: "delete"){_,_,_ in
+            self.publicationsArray.remove(at: indexPath.item)
+            self.tableView.deleteRows(at: [indexPath], with: .fade)
+        }
+        return UISwipeActionsConfiguration(actions: [action])
+    }
 }
+

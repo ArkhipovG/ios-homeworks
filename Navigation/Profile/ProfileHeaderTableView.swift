@@ -8,10 +8,10 @@
 import UIKit
 
 protocol ProfileHeaderViewDelegate: AnyObject {
-    func dogImageViewTapped()
+    func avatarTapped()
 }
 
-class ProfileHeaderView: UIView {
+class ProfileHeaderView: UIView, UITextFieldDelegate {
 
     private let tapGestureRecognizer = UITapGestureRecognizer()
 
@@ -25,7 +25,6 @@ class ProfileHeaderView: UIView {
         deactiveView.backgroundColor = .systemGray
         deactiveView.alpha = 0
         deactiveView.translatesAutoresizingMaskIntoConstraints = false
-
         return deactiveView
     }()
 
@@ -46,9 +45,9 @@ class ProfileHeaderView: UIView {
         imageView.layer.borderColor = UIColor.white.cgColor
         imageView.translatesAutoresizingMaskIntoConstraints = false
         imageView.isUserInteractionEnabled = true
+        imageView.layer.masksToBounds = true
         return imageView
     }()
-
 
     private lazy var setStatusButton: UIButton = {
         let button = UIButton()
@@ -86,8 +85,8 @@ class ProfileHeaderView: UIView {
         statusField.layer.borderColor = UIColor.black.cgColor
         statusField.layer.borderWidth = 1
         statusField.addTarget(self, action: #selector(statusTextChanged), for: .editingChanged)
+        statusField.delegate = self
         return statusField
-
     }()
 
     override init(frame: CGRect) {
@@ -114,7 +113,6 @@ class ProfileHeaderView: UIView {
         addSubview(textField)
         avatarImageView.addGestureRecognizer(tapGestureRecognizer)
         tapGestureRecognizer.addTarget(self, action: #selector(handTapGesture))
-
 
         NSLayoutConstraint.activate([
 
@@ -143,21 +141,37 @@ class ProfileHeaderView: UIView {
             textField.heightAnchor.constraint(equalToConstant: 40),
             textField.widthAnchor.constraint(equalToConstant: 200),
         ])
-
     }
 
     @objc func handTapGesture(_ gestureRecognizer: UITapGestureRecognizer) {
-             avatarImageView.isHidden = true
-             delegate?.dogImageViewTapped()
-         }
+        avatarImageView.isHidden = true
+        delegate?.avatarTapped()
+    }
 
     @objc private func statusTextChanged(_ textField: UITextField) {
         statusText = "\(textField.text!)"
     }
 
     @objc func buttonPressed() {
-        statusLabel.text = statusText
+        if statusText.count == 0 {
+            textField.shakeStatus()
+        } else {
+            statusLabel.text = statusText
+        }
         print(" Status is \(statusLabel.text ?? "No status")")
+    }
+}
+
+extension UITextField {
+
+    func shakeStatus() {
+        let shakeAnimation = CABasicAnimation(keyPath: "position")
+        shakeAnimation.duration = 0.06
+        shakeAnimation.repeatCount = 5
+        shakeAnimation.autoreverses = true
+        shakeAnimation.fromValue = CGPoint(x: self.center.x - 4, y: self.center.y)
+        shakeAnimation.toValue = CGPoint(x: self.center.x + 4, y: self.center.y)
+        layer.add(shakeAnimation, forKey: "position")
     }
 }
 
